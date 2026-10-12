@@ -1,0 +1,15 @@
+# notes
+notes
+*.txt
+
+# build arfifact
+build
+
+
+# editor and IDE's
+.swp
+.swo
+tags
+
+.vscode
+

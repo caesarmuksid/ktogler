@@ -1,0 +1,18 @@
+{
+    "KPlugin": {
+        "Authors": [
+            {
+                "Name": "caesarmuksid"
+            }
+        ],
+        "Description": "Generic Window Toggler",
+        "Icon": "utilities-terminal",
+        "Id": "togler",
+        "License": "GPL-3.0-or-later",
+        "Name": "Togler",
+        "Version": "1.0.2"
+    },
+    "KPackageStructure": "KWin/Script",
+    "X-Plasma-API": "javascript",
+    "X-Plasma-MainScript": "code/main.js"
+}

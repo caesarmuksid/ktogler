@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "target": "ES2020",
+    "module": "esnext",
+    "lib": ["ES2020"],
+    "types": []
+  },
+  "include": [
+    "contents/code/**/*.js",
+    "*.d.ts"
+  ]
+}

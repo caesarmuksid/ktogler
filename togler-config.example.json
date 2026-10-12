@@ -1,0 +1,12 @@
+{
+  "apps": {
+    "kitty": "kitty",
+    "dolphin": "org.kde.dolphin",
+    "firefox": "firefox-esr"
+  },
+  "shortcuts": {
+    "kitty": "Meta+K",
+    "dolphin": "Meta+F",
+    "firefox": "Meta+Shift+F"
+  }
+}
