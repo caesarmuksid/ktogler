@@ -1,10 +1,10 @@
 #!/bin/bash
-# Togler - KWin Configuration Reloader
-# Usage: ./togler.sh [command]
+# Ktogler - KWin Configuration Reloader
+# Usage: ./ktogler.sh [command]
 
-SCRIPT_NAME="togler"
-CONFIG_FILE="$HOME/.local/share/kwin/scripts/$SCRIPT_NAME/togler-config.json"
-PROJECT_CONFIG="$(dirname "$0")/togler-config.example.json"
+SCRIPT_NAME="ktogler"
+CONFIG_FILE="$HOME/.local/share/kwin/scripts/$SCRIPT_NAME/ktogler-config.json"
+PROJECT_CONFIG="$(dirname "$0")/ktogler-config.example.json"
 KCONF_GROUP="Script-$SCRIPT_NAME"
 KCONF_KEY="config"
 
@@ -92,7 +92,7 @@ check_key() {
 }
 
 show_help() {
-  echo -e "${GREEN}Togler - KWin Window Toggle Manager${NC}"
+  echo -e "${GREEN}Ktogler - KWin Window Toggle Manager${NC}"
   echo ""
   echo "Usage: $0 [command]"
   echo ""
@@ -118,10 +118,10 @@ clean_stale_shortcuts() {
   fi
   if [ -n "$cfg" ]; then
     expected="$(echo "$cfg" | jq -r '.apps | keys[]' 2>/dev/null | while read -r n; do
-      printf 'Togler%s\n' "$(printf '%s' "$n" | sed 's/^./\U&/')"
+      printf 'Ktogler%s\n' "$(printf '%s' "$n" | sed 's/^./\U&/')"
     done)"
   fi
-  for name in $(qdbus6 org.kde.kglobalaccel /component/kwin org.kde.kglobalaccel.Component.shortcutNames 2>/dev/null | grep '^Togler'); do
+  for name in $(qdbus6 org.kde.kglobalaccel /component/kwin org.kde.kglobalaccel.Component.shortcutNames 2>/dev/null | grep '^Ktogler'); do
     if ! printf '%s\n' "$expected" | grep -qx "$name"; then
       qdbus6 org.kde.kglobalaccel /kglobalaccel org.kde.KGlobalAccel.unregister kwin "$name" >/dev/null 2>&1
       echo -e "${YELLOW}  ✓ Removed stale shortcut: $name${NC}"
@@ -138,7 +138,7 @@ reload_kwin() {
   echo -e "${GREEN}✓ KWin reloaded${NC}"
   echo ""
   echo "Check logs with:"
-  echo -e "  ${YELLOW}journalctl --user -f | grep -i togler${NC}"
+  echo -e "  ${YELLOW}journalctl --user -f | grep -i ktogler${NC}"
 }
 
 edit_config() {

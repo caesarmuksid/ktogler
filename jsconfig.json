@@ -6,8 +6,5 @@
     "lib": ["ES2020"],
     "types": []
   },
-  "include": [
-    "contents/code/**/*.js",
-    "*.d.ts"
-  ]
+  "include": ["contents/code/**/*.js", "*.d.ts"]
 }

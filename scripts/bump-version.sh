@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Version bumping script for KWin Togler
+# Version bumping script for ktogler
 
 set -e
 

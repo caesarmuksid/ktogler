@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# KWin Togler - Build script
+# ktogler - Build script
 # Thin wrapper around the Makefile build system.
 
 set -e
@@ -9,7 +9,7 @@ RED='\033[0;31m'
 NC='\033[0m'
 
 usage() {
-    echo -e "${GREEN}KWin Togler Build Script${NC}"
+    echo -e "${GREEN}ktogler Build Script${NC}"
     echo ""
     echo "Usage: $0 [command]"
     echo ""

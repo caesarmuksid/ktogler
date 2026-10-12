@@ -1,6 +1,5 @@
 // kwin-global.d.ts
 
-
 /* File I/O function (may or may not be available in KWin environment) */
 declare function readFile(path: string): string | undefined;
 

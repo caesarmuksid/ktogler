@@ -2,23 +2,23 @@
  * Load configuration. Preference order:
  *
  *   1) KConfig: the kwinrc group [Script-<pluginId>], key "config" (a JSON
- *      blob). Managed with `make config-sync` / `togler.sh sync`, or directly:
- *        kwriteconfig6 --file kwinrc --group Script-togler --key config '<json>'
+ *      blob). Managed with `make config-sync` / `ktogler.sh sync`, or directly:
+ *        kwriteconfig6 --file kwinrc --group Script-ktogler --key config '<json>'
  *   2) A JSON file via readFile (fallback for builds where readConfig is
  *      missing or the kwinrc key is empty).
  *
  * If no config is found, no shortcuts are registered. Use the packaged
- * togler-config.example.json as a template.
+ * ktogler-config.example.json as a template.
  */
-/** @returns {ToglerConfig} */
+/** @returns {KtoglerConfig} */
 function emptyConfig() {
   return { apps: {}, shortcuts: {} };
 }
 
 /**
- * Validate a parsed value as a ToglerConfig.
+ * Validate a parsed value as a KtoglerConfig.
  * @param {unknown} cfg
- * @returns {ToglerConfig | null}
+ * @returns {KtoglerConfig | null}
  */
 function toConfig(cfg) {
   if (!cfg || typeof cfg !== "object") {
@@ -41,7 +41,7 @@ function toConfig(cfg) {
   return null;
 }
 
-/** @returns {ToglerConfig} */
+/** @returns {KtoglerConfig} */
 function loadConfig() {
   // 1) KConfig: kwinrc -> [Script-<id>] -> "config" key
   if (typeof readConfig === "function") {
@@ -63,7 +63,7 @@ function loadConfig() {
   if (typeof readFile === "function") {
     /**
      * @param {string} path
-     * @returns {ToglerConfig | null}
+     * @returns {KtoglerConfig | null}
      */
     function tryReadJson(path) {
       try {
@@ -87,11 +87,11 @@ function loadConfig() {
       const xdg = getenv("XDG_CONFIG_HOME");
       const home = getenv("HOME");
       if (xdg) {
-        candidates.push(xdg + "/kwin-togler/config.json");
+        candidates.push(xdg + "/ktogler/config.json");
       }
       if (home) {
-        candidates.push(home + "/.config/kwin-togler/config.json");
-        candidates.push(home + "/.kwin-togler/config.json");
+        candidates.push(home + "/.config/ktogler/config.json");
+        candidates.push(home + "/.ktogler/config.json");
       }
     }
     /*
@@ -99,7 +99,7 @@ function loadConfig() {
      * can still be supplied at the installed location below.
      */
     // Config installed alongside the script by the tooling
-    candidates.push("../../togler-config.json");
+    candidates.push("../../ktogler-config.json");
 
     for (let i = 0; i < candidates.length; i++) {
       const cfg = tryReadJson(candidates[i]);
@@ -108,8 +108,8 @@ function loadConfig() {
   }
 
   console.warn(
-    "No configuration found. Run `make config-sync` or `togler.sh edit` " +
-      "(stored in kwinrc under Script-togler); no shortcuts registered."
+    "No configuration found. Run `make config-sync` or `ktogler.sh edit` " +
+      "(stored in kwinrc under Script-ktogler); no shortcuts registered."
   );
   return emptyConfig();
 }
@@ -185,7 +185,7 @@ for (const appName in config.apps) {
 
   if (shortcut) {
     const shortcutId =
-      "Togler" + appName.charAt(0).toUpperCase() + appName.slice(1);
+      "Ktogler" + appName.charAt(0).toUpperCase() + appName.slice(1);
     const description =
       "Toggle " + appName.charAt(0).toUpperCase() + appName.slice(1);
 

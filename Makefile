@@ -1,15 +1,15 @@
-# KWin Togler - Build System
+# ktogler - Build System
 # Usage: make [target]
 
 # Variables
-SCRIPT_NAME = togler
-SHORTCUT_PREFIX = Togler
+SCRIPT_NAME = ktogler
+SHORTCUT_PREFIX = Ktogler
 VERSION = $(shell cat VERSION)
 BUILD_DIR = build
 PACKAGE_NAME = $(SCRIPT_NAME)-$(VERSION).kwinscript
 INSTALL_CMD = kpackagetool6
-CONFIG_FILE = togler-config.example.json
-INSTALL_CONFIG = togler-config.json
+CONFIG_FILE = ktogler-config.example.json
+INSTALL_CONFIG = ktogler-config.json
 INSTALL_DIR = $(HOME)/.local/share/kwin/scripts/$(SCRIPT_NAME)
 CONFIG_GROUP = Script-$(SCRIPT_NAME)
 CONFIG_KEY = config
@@ -34,7 +34,7 @@ NC = \033[0m # No Color
 all: build
 
 help:
-	@echo "$(GREEN)KWin Togler Build System$(NC)"
+	@echo "$(GREEN)ktogler Build System$(NC)"
 	@echo ""
 	@echo "Available targets:"
 	@echo "  $(YELLOW)build$(NC)        - Build the .kwinscript package"
@@ -110,7 +110,7 @@ uninstall:
 purge: uninstall
 	@echo "$(YELLOW)Purging configuration...$(NC)"
 	@kwriteconfig6 --file kwinrc --group $(CONFIG_GROUP) --key $(CONFIG_KEY) --delete 2>/dev/null || true
-	@rm -rf "$$HOME/.config/kwin-togler" "$$HOME/.kwin-togler"
+	@rm -rf "$$HOME/.config/ktogler" "$$HOME/.ktogler"
 	@echo "$(GREEN)✓ Configuration removed$(NC)"
 
 # Reinstall (clean install)
@@ -139,7 +139,7 @@ reload:
 	@$(MAKE) --no-print-directory clean-stale-shortcuts
 	@echo "$(GREEN)✓ KWin reloaded$(NC)"
 
-# Remove Togler* global shortcuts that are not part of the current config.
+# Remove Ktogler* global shortcuts that are not part of the current config.
 # KWin keeps actions for removed apps alive (with an empty key) in the live
 # component and in kglobalshortcutsrc after a reload; deregister those so they
 # don't linger in System Settings. Requires jq; skipped with a warning if
@@ -152,7 +152,7 @@ clean-stale-shortcuts:
 		echo "  $(YELLOW)jq not available; skipping stale shortcut cleanup (install jq)$(NC)"; \
 		expected=""; skip=1; \
 	else \
-		expected="$$(echo "$$cfg" | jq -r '.apps | keys[]' 2>/dev/null | while read -r n; do printf 'Togler%s\n' "$$(printf '%s' "$$n" | sed 's/^./\U&/')"; done)"; \
+		expected="$$(echo "$$cfg" | jq -r '.apps | keys[]' 2>/dev/null | while read -r n; do printf 'Ktogler%s\n' "$$(printf '%s' "$$n" | sed 's/^./\U&/')"; done)"; \
 	fi; \
 	if [ "$$skip" != "1" ]; then \
 		for name in $$(qdbus6 org.kde.kglobalaccel /component/kwin org.kde.kglobalaccel.Component.shortcutNames 2>/dev/null | grep -E '^$(SHORTCUT_PREFIX)'); do \
@@ -238,9 +238,9 @@ dev: reinstall enable config-sync reload
 	@echo "$(GREEN)═══════════════════════════════════════$(NC)"
 	@echo ""
 	@echo "$(BLUE)Next steps:$(NC)"
-	@echo "  • Edit config: $(YELLOW)make config-edit$(NC) or $(YELLOW)./togler.sh edit$(NC)"
-	@echo "  • Reload KWin: $(YELLOW)make reload$(NC) or $(YELLOW)./togler.sh reload$(NC)"
-	@echo "  • Check logs:  $(YELLOW)journalctl --user -f | grep -i togler$(NC)"
+	@echo "  • Edit config: $(YELLOW)make config-edit$(NC) or $(YELLOW)./ktogler.sh edit$(NC)"
+	@echo "  • Reload KWin: $(YELLOW)make reload$(NC) or $(YELLOW)./ktogler.sh reload$(NC)"
+	@echo "  • Check logs:  $(YELLOW)journalctl --user -f | grep -i ktogler$(NC)"
 
 # Clean build artifacts
 clean:

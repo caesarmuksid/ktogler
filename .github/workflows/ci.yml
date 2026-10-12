@@ -1,0 +1,23 @@
+name: CI
+on: [push, pull_request]
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get install -y shellcheck zip
+      - name: Shell syntax
+        run: bash -n ktogler.sh install.sh build.sh scripts/bump-version.sh
+      - name: Shellcheck
+        run: shellcheck ktogler.sh install.sh build.sh scripts/bump-version.sh
+      - name: ESLint
+        run: npx --yes eslint contents/code/main.js
+      - name: Prettier
+        run: npx --yes prettier --check .
+      - name: Version sync
+        run: make check-version
+      - name: Build package
+        run: make build
+      - name: Package layout (metadata.json at zip root)
+        run: unzip -l build/ktogler-*.kwinscript | grep -q './metadata.json' \
+          || unzip -Z1 build/ktogler-*.kwinscript | grep -q '^metadata.json$'
